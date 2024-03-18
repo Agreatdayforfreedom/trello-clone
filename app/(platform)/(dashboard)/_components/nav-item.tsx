@@ -1,11 +1,12 @@
 "use client";
 import React from "react";
-import { AccordionContent, AccordionItem, AccordionTrigger } from "../../../../components/ui/accordion";
-import { cn } from "../../../../lib/utils";
+import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { Activity, CreditCard, Layout, Settings } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
-import { Button } from "../../../../components/ui/button";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "../../../../components/ui/skeleton";
 
 export type Organization = {
   id: string;
@@ -82,5 +83,16 @@ export const NavItem = ({ isActive, isExpanded, organization, onExpand }: Props)
         ))}
       </AccordionContent>
     </AccordionItem>
+  );
+};
+
+NavItem.Skeleton = function SkeletonNavItem() {
+  return (
+    <div className="flex items-center gap-x-2">
+      <div className="w-8 h-8 relative shrink-0">
+        <Skeleton className="w-full h-full absolute" />
+      </div>
+      <Skeleton className="h-8 w-full" />
+    </div>
   );
 };
