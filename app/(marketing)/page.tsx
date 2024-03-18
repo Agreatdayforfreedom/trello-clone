@@ -30,7 +30,7 @@ export default function MarketingPage() {
         accomplish it all with LOL
       </div>
       <Button className="mt-6" size="lg" asChild>
-        <Link href="signup">Get LOL for free</Link>
+        <Link href="sign-up">Get LOL for free</Link>
       </Button>
     </div>
   );
