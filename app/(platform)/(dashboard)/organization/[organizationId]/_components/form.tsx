@@ -1,13 +1,13 @@
 "use client";
 import React from "react";
-import { createBoard } from "@/lib/actions";
+import { State, createBoard } from "@/lib/actions";
 import { Button } from "@/components/ui/button";
 import { useFormState, useFormStatus } from "react-dom";
 import { FormButton } from "./form-button";
 
 export const Form = () => {
 	const initialState = { message: null, errors: {} };
-	const [state, dispatch] = useFormState(createBoard, initialState);
+	const [state, dispatch] = useFormState<any, any>(createBoard, initialState);
 	return (
 		<form action={dispatch}>
 			<div>
