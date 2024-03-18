@@ -1,5 +1,5 @@
 import React from "react";
-import { deleteBoard } from "@/lib/actions";
+import { deleteBoard } from "@/actions/board";
 import { DeleteButton } from "./delete-button";
 
 export const Board = ({ board }: any) => {

@@ -1,10 +1,8 @@
-import { createBoard } from "@/lib/actions";
 import { Button } from "@/components/ui/button";
 import { db } from "@/lib/db";
 import { Board } from "./_components/board";
 import { Form } from "./_components/form";
-
-createBoard;
+import { createBoard } from "@/actions/board";
 
 const Page = async () => {
 	const boards = await db.board.findMany();
