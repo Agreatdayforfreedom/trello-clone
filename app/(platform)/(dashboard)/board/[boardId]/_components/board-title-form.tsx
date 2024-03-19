@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Board } from "@prisma/client";
 import { FormInput } from "@/components/form/form-input";
 import { ElementRef, useRef, useState } from "react";
-import { useAction } from "../../../../../../hooks/use-action";
-import { updateBoard } from "../../../../../../actions/board";
+import { useAction } from "@/hooks/use-action";
+import { updateBoard } from "@/actions/board";
 import { toast } from "sonner";
 
 interface Props {
