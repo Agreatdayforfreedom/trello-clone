@@ -93,6 +93,8 @@ const handler = async (data: any): Promise<ReturnType> => {
 
 export async function deleteHandler(data: any) {
 	const { userId, orgId } = auth();
+	const isPro = checkSubscription();
+
 	if (!userId || !orgId) {
 		return {
 			error: "Unauthorized",
@@ -110,7 +112,9 @@ export async function deleteHandler(data: any) {
 				orgId,
 			},
 		});
-		await decreaseAvailableCount();
+		if (!isPro) {
+			await decreaseAvailableCount();
+		}
 		await createAuditLog({
 			entityId: board.id,
 			entityTitle: board.title,
