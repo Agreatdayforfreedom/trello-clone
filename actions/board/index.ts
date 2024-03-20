@@ -16,6 +16,12 @@ import {
 import { CreateBoard, DeleteBoard, UpdateBoard } from "./schema";
 import { redirect } from "next/navigation";
 import { createAuditLog } from "@/lib/create-audit-log";
+import {
+	decreaseAvailableCount,
+	hasAvailableCount,
+	incrementAvailableCount,
+} from "@/lib/org-limit";
+import { checkSubscription } from "@/lib/subscription";
 
 const handler = async (data: any): Promise<ReturnType> => {
 	const { userId, orgId } = auth();
@@ -23,6 +29,15 @@ const handler = async (data: any): Promise<ReturnType> => {
 	if (!userId || !orgId) {
 		return {
 			error: "Unauthorized",
+		};
+	}
+
+	const canCreate = await hasAvailableCount();
+	const isPro = await checkSubscription();
+	if (!canCreate && !isPro) {
+		return {
+			error:
+				"You have reached your limit of free boards. Please upgrade to create more.",
 		};
 	}
 
@@ -42,13 +57,7 @@ const handler = async (data: any): Promise<ReturnType> => {
 			error: "Missing fields.",
 		};
 	}
-	console.log({
-		imageId,
-		imageThumbUrl,
-		imageFullUrl,
-		imageLinkHTML,
-		imageUserName,
-	});
+
 	let board;
 
 	try {
@@ -63,7 +72,9 @@ const handler = async (data: any): Promise<ReturnType> => {
 				imageUserName,
 			},
 		});
-
+		if (!isPro) {
+			await incrementAvailableCount();
+		}
 		await createAuditLog({
 			entityId: board.id,
 			entityTitle: board.title,
@@ -99,7 +110,7 @@ export async function deleteHandler(data: any) {
 				orgId,
 			},
 		});
-
+		await decreaseAvailableCount();
 		await createAuditLog({
 			entityId: board.id,
 			entityTitle: board.title,
