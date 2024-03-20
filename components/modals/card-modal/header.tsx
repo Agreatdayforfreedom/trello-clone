@@ -1,13 +1,14 @@
 import React, { ElementRef, useRef, useState } from "react";
-import { CardWithList } from "@/types";
+import { toast } from "sonner";
 import { Layout } from "lucide-react";
+
+import { CardWithList } from "@/types";
 import { FormInput } from "@/components/form/form-input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { useAction } from "@/hooks/use-action";
 import { updateCard } from "@/actions/card";
-import { toast } from "sonner";
 
 interface Props {
 	data: CardWithList;

@@ -1,9 +1,11 @@
 import React from "react";
+
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useCardModal } from "@/hooks/use-card-modal";
 import { useQuery } from "@tanstack/react-query";
 import { CardWithList } from "@/types";
 import { fetcher } from "@/lib/fetcher";
+
 import { Header } from "./header";
 import { Description } from "./description";
 import { Actions } from "./actions";

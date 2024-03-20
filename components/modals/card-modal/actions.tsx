@@ -1,13 +1,14 @@
 import React from "react";
+import { toast } from "sonner";
+import { Copy, Trash } from "lucide-react";
+import { useParams } from "next/navigation";
+
 import { Skeleton } from "@/components/ui/skeleton";
 import { CardWithList } from "@/types";
-import { Button } from "../../ui/button";
-import { Copy, Trash } from "lucide-react";
-import { useAction } from "../../../hooks/use-action";
-import { copyCard, deleteCard } from "../../../actions/card";
-import { useParams } from "next/navigation";
-import { useCardModal } from "../../../hooks/use-card-modal";
-import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { useAction } from "@/hooks/use-action";
+import { copyCard, deleteCard } from "@/actions/card";
+import { useCardModal } from "@/hooks/use-card-modal";
 
 interface Props {
 	data: CardWithList;

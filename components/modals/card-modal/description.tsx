@@ -1,16 +1,17 @@
 import React, { ElementRef, useRef, useState } from "react";
+import { useEventListener, useOnClickOutside } from "usehooks-ts";
+import { AlignLeft } from "lucide-react";
+import { toast } from "sonner";
+
 import { CardWithList } from "@/types";
 import { Skeleton } from "@/components/ui/skeleton";
-import { AlignLeft } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
-import { useEventListener, useOnClickOutside } from "usehooks-ts";
-import { FormTextarea } from "../../form/form-textarea";
-import { FormSubmit } from "../../form/form-submit";
-import { Button } from "../../ui/button";
-import { useAction } from "../../../hooks/use-action";
-import { updateCard } from "../../../actions/card";
-import { toast } from "sonner";
+import { FormTextarea } from "@/components/form/form-textarea";
+import { FormSubmit } from "@/components/form/form-submit";
+import { Button } from "@/components/ui/button";
+import { useAction } from "@/hooks/use-action";
+import { updateCard } from "@/actions/card";
 
 interface Props {
 	data: CardWithList;
