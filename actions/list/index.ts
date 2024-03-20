@@ -7,6 +7,8 @@ import { db } from "@/lib/db";
 
 import { CopyList, CreateList, DeleteList, UpdateList } from "./schema";
 import { ReturnType, UpdateReturnType } from "./types";
+import { ACTION, ENTITY_TYPE } from "@prisma/client";
+import { createAuditLog } from "@/lib/create-audit-log";
 
 const handler = async (data: any): Promise<ReturnType> => {
 	const { userId, orgId } = auth();
@@ -47,6 +49,13 @@ const handler = async (data: any): Promise<ReturnType> => {
 				boardId,
 				order: newOrder,
 			},
+		});
+
+		await createAuditLog({
+			entityId: list.id,
+			entityTitle: list.title,
+			entityType: ENTITY_TYPE.LIST,
+			action: ACTION.CREATE,
 		});
 	} catch (error) {
 		return {
@@ -96,6 +105,13 @@ const updateHandler = async (data: any): Promise<UpdateReturnType> => {
 				title,
 			},
 		});
+
+		await createAuditLog({
+			entityId: list.id,
+			entityTitle: list.title,
+			entityType: ENTITY_TYPE.LIST,
+			action: ACTION.UPDATE,
+		});
 	} catch (error) {
 		return {
 			error: "Failed to update",
@@ -127,6 +143,12 @@ export async function deleteHandler(data: any) {
 					orgId,
 				},
 			},
+		});
+		await createAuditLog({
+			entityId: list.id,
+			entityTitle: list.title,
+			entityType: ENTITY_TYPE.LIST,
+			action: ACTION.DELETE,
 		});
 	} catch (error) {}
 	revalidatePath(`/board/${orgId}`);
@@ -187,6 +209,13 @@ export async function copyHandler(data: any) {
 			include: {
 				cards: true,
 			},
+		});
+
+		await createAuditLog({
+			entityId: list.id,
+			entityTitle: list.title,
+			entityType: ENTITY_TYPE.LIST,
+			action: ACTION.CREATE,
 		});
 	} catch (error) {
 		return {

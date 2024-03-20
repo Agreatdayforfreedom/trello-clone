@@ -1,9 +1,11 @@
 "use server";
 import { revalidatePath } from "next/cache";
+import { auth } from "@clerk/nextjs";
+import { ACTION, ENTITY_TYPE } from "@prisma/client";
 
 import { createSafeAction } from "@/lib/create-safe-action";
-import { auth } from "@clerk/nextjs";
 import { db } from "@/lib/db";
+import { createAuditLog } from "@/lib/create-audit-log";
 
 import { CopyCard, CreateCard, DeleteCard, UpdateCard } from "./schema";
 import {
@@ -55,6 +57,13 @@ const handler = async (data: any): Promise<ReturnType> => {
 				order: newOrder,
 			},
 		});
+
+		await createAuditLog({
+			entityId: card.id,
+			entityTitle: card.title,
+			entityType: ENTITY_TYPE.CARD,
+			action: ACTION.CREATE,
+		});
 	} catch (error) {
 		return {
 			error: "Failed to update",
@@ -90,6 +99,12 @@ const updateHandler = async (data: any): Promise<UpdateReturnType> => {
 			data: {
 				...values,
 			},
+		});
+		await createAuditLog({
+			entityId: card.id,
+			entityTitle: card.title,
+			entityType: ENTITY_TYPE.CARD,
+			action: ACTION.UPDATE,
 		});
 	} catch (error) {
 		return {
@@ -144,6 +159,13 @@ const copyHandler = async (data: any): Promise<CopyReturnType> => {
 				listId: cardToCopy.listId,
 			},
 		});
+
+		await createAuditLog({
+			entityId: card.id,
+			entityTitle: card.title,
+			entityType: ENTITY_TYPE.CARD,
+			action: ACTION.CREATE,
+		});
 	} catch (error) {
 		return {
 			error: "Failed to copy",
@@ -176,6 +198,12 @@ const deleteHandler = async (data: any): Promise<DeleteReturnType> => {
 					},
 				},
 			},
+		});
+		await createAuditLog({
+			entityId: card.id,
+			entityTitle: card.title,
+			entityType: ENTITY_TYPE.CARD,
+			action: ACTION.DELETE,
 		});
 	} catch (error) {
 		return {

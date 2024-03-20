@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 
 import { db } from "@/lib/db";
 import { createSafeAction } from "@/lib/create-safe-action";
+import { ACTION, ENTITY_TYPE } from "@prisma/client";
 
 import {
 	InputType,
@@ -14,6 +15,7 @@ import {
 } from "./types";
 import { CreateBoard, DeleteBoard, UpdateBoard } from "./schema";
 import { redirect } from "next/navigation";
+import { createAuditLog } from "@/lib/create-audit-log";
 
 const handler = async (data: any): Promise<ReturnType> => {
 	const { userId, orgId } = auth();
@@ -61,6 +63,13 @@ const handler = async (data: any): Promise<ReturnType> => {
 				imageUserName,
 			},
 		});
+
+		await createAuditLog({
+			entityId: board.id,
+			entityTitle: board.title,
+			entityType: ENTITY_TYPE.BOARD,
+			action: ACTION.CREATE,
+		});
 	} catch (error) {
 		return {
 			error: "Failed to create.",
@@ -84,11 +93,18 @@ export async function deleteHandler(data: any) {
 	let board;
 
 	try {
-		await db.board.delete({
+		board = await db.board.delete({
 			where: {
 				id,
 				orgId,
 			},
+		});
+
+		await createAuditLog({
+			entityId: board.id,
+			entityTitle: board.title,
+			entityType: ENTITY_TYPE.BOARD,
+			action: ACTION.DELETE,
 		});
 	} catch (error) {}
 	revalidatePath(`/organization/${orgId}`);
@@ -116,6 +132,13 @@ const updateHandler = async (data: any): Promise<UpdateReturnType> => {
 			data: {
 				title,
 			},
+		});
+
+		await createAuditLog({
+			entityId: board.id,
+			entityTitle: board.title,
+			entityType: ENTITY_TYPE.BOARD,
+			action: ACTION.UPDATE,
 		});
 	} catch (error) {
 		return {
