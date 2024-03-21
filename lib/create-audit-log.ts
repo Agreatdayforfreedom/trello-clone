@@ -23,7 +23,7 @@ export const createAuditLog = async (props: Props) => {
 
 		const userName = user.username
 			? user.username
-			: user?.firstName + " " + user?.lastName;
+			: ((user?.firstName || "") + " " + (user?.lastName || "")).trim();
 
 		await db.auditLog.create({
 			data: {
