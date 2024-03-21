@@ -32,9 +32,11 @@ export const ProModal = () => {
 					<Image src="/hero.svg" alt="Hero" className="object-cover" fill />
 				</div>
 				<div className="text-neutral-700 mx-auto space-y-6 p-6">
-					<h2 className="font-semibold text-xl">Upgrade to LOL Pro Today!</h2>
+					<h2 className="font-semibold text-xl">
+						Upgrade to TaskBoard Pro Today!
+					</h2>
 					<p className="text-xs font-semibold text-neutral-600">
-						Explore the best of LOL
+						Explore the best of TaskBoard
 					</p>
 					<div className="pl-3">
 						<ul className="text-sm list-disc">
