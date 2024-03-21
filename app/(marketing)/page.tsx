@@ -35,9 +35,9 @@ export default function MarketingPage() {
 				</div>
 			</div>
 			<div className="text-sm md:text-xl text-neutral-400 mt-4 max-w-xs md:max-w-2xl text-center mx-auto">
-				Collabora, manage projects, and reach new productivity peaks. From high
-				rises to the home office. the way your team works is unique - accomplish
-				it all with LOL
+				Collaborate, manage projects, and reach new productivity peaks. From
+				high rises to the home office. the way your team works is unique -
+				accomplish it all with LOL
 			</div>
 
 			<div className="space-y-3 flex flex-col">
