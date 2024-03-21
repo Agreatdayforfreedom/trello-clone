@@ -2,6 +2,7 @@
 import { SignIn, useSignIn } from "@clerk/nextjs";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
 export default function Page() {
 	const searchParams = useSearchParams();
 	const router = useRouter();
@@ -12,8 +13,6 @@ export default function Page() {
 			return;
 		}
 		try {
-			console.log("HERE");
-
 			const completeSignIn = await signIn.create({
 				identifier: process.env.NEXT_PUBLIC_TEST_USERNAME! as string,
 				password: process.env.NEXT_PUBLIC_TEST_PASSWORD! as string,
@@ -40,5 +39,14 @@ export default function Page() {
 		go();
 	}, [searchParams, isLoaded]);
 
+	if (searchParams.get("mode") === "test") {
+		return (
+			<div>
+				<Button className="w-full animate-pulse" size="lg" variant="primary">
+					Logging in...
+				</Button>
+			</div>
+		);
+	}
 	return <SignIn />;
 }
