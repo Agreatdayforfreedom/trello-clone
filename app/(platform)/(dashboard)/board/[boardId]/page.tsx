@@ -39,7 +39,7 @@ const Page = async ({ params }: Props) => {
 	});
 
 	return (
-		<div className="p-4 h-fukk overflow-x-auto">
+		<div className="p-4 h-full overflow-x-auto">
 			<ListContainer boardId={params.boardId} data={lists} />
 		</div>
 	);
